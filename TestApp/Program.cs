@@ -22,6 +22,7 @@ Console.WriteLine("Searching for workflow runs...");
 var workflowRuns = await client.ListWorkflowRuns(repositoryName, workflows.First().Id);
 foreach (var run in workflowRuns)
 {
+    Console.WriteLine("\t" + run.Conclusion);
     Console.WriteLine("\t" + run.Id);
     Console.WriteLine("\t" + run.Name);
     Console.WriteLine("\t" + run.TriggeringEvent);

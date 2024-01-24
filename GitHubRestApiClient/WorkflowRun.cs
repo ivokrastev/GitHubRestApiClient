@@ -14,9 +14,12 @@ namespace GitHubRestApiClient
         public IReadOnlyList<PullRequest> PullRequests { get; }
         public DateTimeOffset RunStartedAt { get; }
         public WorkflowRunStatus Status { get; }
+        public WorkflowRunConclusion Conclusion { get; }
 
         internal WorkflowRun(Octokit.WorkflowRun workflowRun)
         {
+            if (workflowRun == null) throw new ArgumentNullException(nameof(workflowRun));
+
             Name = workflowRun.Name;
             Id = workflowRun.Id;
             RunNumber = workflowRun.RunNumber;
@@ -27,6 +30,15 @@ namespace GitHubRestApiClient
             ArtifactsUrl = workflowRun.ArtifactsUrl;
             HeadCommit = new Commit(workflowRun.HeadCommit);
             PullRequests = workflowRun.PullRequests.Select(pr => new PullRequest(pr)).ToImmutableArray();
+            if (workflowRun.Conclusion == null)
+            {
+                Conclusion = WorkflowRunConclusion.Unknown;
+            }
+            else
+            {
+                Octokit.WorkflowRunConclusion conclusion = workflowRun.Conclusion.Value.Value;
+                Conclusion = (WorkflowRunConclusion)Enum.Parse(typeof(WorkflowRunConclusion), conclusion.ToString(), ignoreCase: true);
+            }
         }
     }
 }
