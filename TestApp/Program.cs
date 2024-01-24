@@ -6,7 +6,7 @@ if (args.Length != 3)
 string repositoryName = args[1];
 var client = new GitHubApiClient(args[0], args[2]);
 
-var workflows = await client.ListRepositoryWorkflows("DevelopmentPractice");
+var workflows = await client.ListRepositoryWorkflows(repositoryName);
 Console.WriteLine("Searching for workflows...");
 foreach (var workflow in workflows)
 {
