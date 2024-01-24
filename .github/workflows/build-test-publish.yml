@@ -28,8 +28,8 @@ jobs:
     - name: Build
       run: dotnet build -c Release
 
-    - name: Show current directory
-      run: pwd
+    - name: Show TestApp/bin/Release directory
+      run: ls TestApp/bin/Release/net8.0/
       
     - name: Test
       run: ./TestApp/bin/Release/net8.0/TestApp.exe ${{ github.repository_owner }} ${{ github.event.repository.name }} ${{ secrets.GITHUB_TOKEN }}
