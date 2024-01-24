@@ -32,4 +32,4 @@ jobs:
       run: ls TestApp/bin/Release/net8.0/
       
     - name: Test
-      run: ./TestApp/bin/Release/net8.0/TestApp.exe ${{ github.repository_owner }} ${{ github.event.repository.name }} ${{ secrets.GITHUB_TOKEN }}
+      run: ./TestApp/bin/Release/net8.0/TestApp ${{ github.repository_owner }} ${{ github.event.repository.name }} ${{ secrets.GITHUB_TOKEN }}
