@@ -10,7 +10,7 @@ namespace GitHubRestApiClient
     public enum WorkflowRunStatus
     {
         Requested,
-        InProgress,
+        In_Progress,
         Completed,
         Queued,
         Waiting,
