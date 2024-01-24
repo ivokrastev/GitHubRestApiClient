@@ -1,0 +1,10 @@
+<Project>
+  <ItemDefinitionGroup>
+    <ProjectReference>
+      <PrivateAssets>compile</PrivateAssets>
+    </ProjectReference>
+    <PackageReference>
+      <PrivateAssets>compile</PrivateAssets>
+    </PackageReference>
+  </ItemDefinitionGroup>
+</Project>
