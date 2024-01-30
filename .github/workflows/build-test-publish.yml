@@ -6,6 +6,14 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+permissions:
+  actions: read
+  contents: read
+  packages: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
