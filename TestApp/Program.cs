@@ -31,15 +31,13 @@ foreach (var run in workflowRuns)
     var r = await client.ListWorkflowRunArtifacts(run.Id);
     foreach (var artifact in r)
     {
+        string dowloadsDirectory = "Downloads";
         string filename = $"{artifact.Name}.{artifact.Id}.zip";
-        Console.WriteLine($"\t\t {filename}");
-        Stream streamToReadFrom = await client.DownloadArtifact(artifact.Id);
-        Console.WriteLine($"\t\t CanRead: {streamToReadFrom.CanRead}");
-        using Stream streamToWriteTo = File.Open(filename, FileMode.Create);
-        streamToReadFrom.CopyTo(streamToWriteTo);
-        //streamToWriteTo.Flush();
-        Console.WriteLine($"\t\t {File.Exists(filename)}");
-        Console.WriteLine($"\t\t {File.ReadAllBytes(filename).Length}");
+        Stream streamToReadFrom = await client.DownloadArtifact(artifact);
+        GitHubApiClient.SaveStreamAsFile(dowloadsDirectory, streamToReadFrom, filename);
+
+        Console.WriteLine($"\t\t{filename} exists: {File.Exists($@"{dowloadsDirectory}\{filename}")}");
+        Console.WriteLine($"\t\tSize {File.ReadAllBytes($@"{dowloadsDirectory}\{filename}").Length}");
     }
 }
 Console.WriteLine($"Total workflows runs found: {workflowRuns.Count}");

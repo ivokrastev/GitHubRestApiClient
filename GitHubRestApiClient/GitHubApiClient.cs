@@ -1,5 +1,6 @@
 ﻿using Octokit;
 using System.Collections.Immutable;
+using System.Net;
 
 namespace GitHubRestApiClient
 {
@@ -28,8 +29,8 @@ namespace GitHubRestApiClient
         public GitHubApiClient()
         {
 #if DEBUG
-            AccessToken = "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";
-            GitHubIdentity = "ivokrastev";
+            AccessToken = "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";
+            GitHubIdentity = "IvoKrastev";
             RepoName = "GitHubRestApiClient";
             if (string.IsNullOrEmpty(AccessToken) || string.IsNullOrEmpty(GitHubIdentity) || string.IsNullOrEmpty(RepoName))
                 throw new ApplicationException("Local debugging requires to specify AccessToken, GitHubIdentity and RepoName.");
@@ -50,7 +51,7 @@ namespace GitHubRestApiClient
 
         public async Task<IReadOnlyCollection<Workflow>> ListRepositoryWorkflows()
         {
-            WorkflowsResponse response = await ApiClient.Actions.Workflows.List(GitHubIdentity, RepoName);
+            WorkflowsResponse response = await ApiClient.Actions.Workflows.List(GitHubIdentity, RepoName).ConfigureAwait(false);
             return response.Workflows
                 .Select(w => new Workflow(w))
                 .ToArray();
@@ -58,7 +59,7 @@ namespace GitHubRestApiClient
 
         public async Task<IReadOnlyCollection<WorkflowRun>> ListWorkflowRuns(long workflowId)
         {
-            WorkflowRunsResponse response = await ApiClient.Actions.Workflows.Runs.ListByWorkflow(GitHubIdentity, RepoName, workflowId);
+            WorkflowRunsResponse response = await ApiClient.Actions.Workflows.Runs.ListByWorkflow(GitHubIdentity, RepoName, workflowId).ConfigureAwait(false);
             return response.WorkflowRuns
                 .Select(r => new WorkflowRun(r))
                 .ToArray();
@@ -66,17 +67,47 @@ namespace GitHubRestApiClient
 
         public async Task<IReadOnlyCollection<Artifact>> ListWorkflowRunArtifacts(long runId)
         {
-            //ApiClient.Actions.Artifacts.DownloadArtifact
-            ListArtifactsResponse response = await ApiClient.Actions.Artifacts.ListWorkflowArtifacts(GitHubIdentity, RepoName, runId);
+            ListArtifactsResponse response = await ApiClient.Actions.Artifacts.ListWorkflowArtifacts(GitHubIdentity, RepoName, runId).ConfigureAwait(false);
             return response.Artifacts
                 .Where(a => a.WorkflowRun.Id == runId)
                 .Select(a => new Artifact(a))
                 .ToArray();
         }
 
-        public async Task<Stream> DownloadArtifact(long artifactId)
+        // This doesn't work
+        //public async Task<Stream> DownloadArtifact(long artifactId)
+        //{
+        //    return await ApiClient.Actions.Artifacts.DownloadArtifact(GitHubIdentity, RepoName, artifactId, "zip");
+        //}
+
+        public async Task<Stream> DownloadArtifact(Artifact artifact)
         {
-            return await ApiClient.Actions.Artifacts.DownloadArtifact(GitHubIdentity, RepoName, artifactId, "zip");
+            var clientHandler = new HttpClientHandler();
+            using (var client = new HttpClient(clientHandler))
+            {
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Add("Accept", "application/vnd.github+json");
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + AccessToken);
+                client.DefaultRequestHeaders.UserAgent.Add(new System.Net.Http.Headers.ProductInfoHeaderValue("test-app", "1.0" ));
+                client.DefaultRequestHeaders.Add("X-GitHub-Api-Version", "2022-11-28");
+                return await client.GetStreamAsync(artifact.DownloadUrl).ConfigureAwait(false);
+            }
+        }
+
+        public static void SaveStreamAsFile(string filePath, Stream inputStream, string fileName)
+        {
+            DirectoryInfo info = new DirectoryInfo(filePath);
+            if (!info.Exists)
+            {
+                info.Create();
+            }
+
+            string path = Path.Combine(filePath, fileName);
+            using (FileStream outputFileStream = new FileStream(path, System.IO.FileMode.Create))
+            {
+                inputStream.CopyTo(outputFileStream);
+            }
         }
     }
 }
