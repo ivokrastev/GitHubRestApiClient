@@ -23,16 +23,16 @@ jobs:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         
     - name: Restore dependencies
-      run: dotnet restore TestApp\TestApp.csproj
+      run: dotnet restore TestApp/TestApp.csproj
       
     - name: Build
-      run: dotnet build -c Release TestApp\TestApp.csproj
+      run: dotnet build -c Release TestApp/TestApp.csproj
 
     - name: Upload TestApp zip
       uses: actions/upload-artifact@v4
       with:
         name: TestApp
-        path: .\TestApp\TestApp.csproj
+        path: ./TestApp/TestApp.csproj
         if-no-files-found: ignore
         retention-days: 5
       
