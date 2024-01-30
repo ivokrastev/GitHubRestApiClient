@@ -23,13 +23,18 @@ jobs:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore TestApp\TestApp.csproj
       
     - name: Build
-      run: dotnet build -c Release
+      run: dotnet build -c Release TestApp\TestApp.csproj
 
-    - name: Show TestApp/bin/Release directory
-      run: ls TestApp/bin/Release/net8.0/
+    - name: Upload TestApp zip
+      uses: actions/upload-artifact@v4
+      with:
+        name: TestApp
+        path: .\TestApp\TestApp.csproj
+        if-no-files-found: ignore
+        retention-days: 5
       
     - name: Test
       run: ./TestApp/bin/Release/net8.0/TestApp ${{ github.repository_owner }} ${{ github.event.repository.name }} ${{ secrets.GITHUB_TOKEN }}

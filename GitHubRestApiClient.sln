@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{EA66DD34-532B-44C1-BD4B-CFD676E4F992}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp", "TestApp\TestApp.csproj", "{EA66DD34-532B-44C1-BD4B-CFD676E4F992}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubRestApiClient", "GitHubRestApiClient\GitHubRestApiClient.csproj", "{DAFE5A8B-1F45-4D3B-992E-A74754A2AB04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitHubRestApiClient", "GitHubRestApiClient\GitHubRestApiClient.csproj", "{DAFE5A8B-1F45-4D3B-992E-A74754A2AB04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

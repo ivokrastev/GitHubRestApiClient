@@ -1,13 +1,9 @@
 ﻿using GitHubRestApiClient;
 
-if (args.Length != 3)
-    throw new ArgumentException($"Exatly 3 argumets are required: [GitHubIdentity] [RepositoryName] [AccessToken]");
+var client = new GitHubApiClient();
 
-string repositoryName = args[1];
-var client = new GitHubApiClient(args[0], args[2]);
-
-var workflows = await client.ListRepositoryWorkflows(repositoryName);
 Console.WriteLine("Searching for workflows...");
+var workflows = await client.ListRepositoryWorkflows();
 foreach (var workflow in workflows)
 {
     Console.WriteLine("\t" + workflow.Name);
@@ -17,11 +13,12 @@ foreach (var workflow in workflows)
     Console.WriteLine("\t=================");
 }
 Console.WriteLine($"Total workflows found: {workflows.Count}");
-
-Console.WriteLine("Searching for workflow runs...");
-var workflowRuns = await client.ListWorkflowRuns(repositoryName, workflows.First().Id);
+var w = workflows.Where(w => w.Name.StartsWith("Build, Test and Publish")).Single();
+Console.WriteLine($"Searching for {w.Name} workflow runs...");
+var workflowRuns = await client.ListWorkflowRuns(w.Id);
 foreach (var run in workflowRuns)
 {
+    if (run.Status != WorkflowRunStatus.Completed) continue;
     Console.WriteLine("\t" + run.Conclusion);
     Console.WriteLine("\t" + run.Id);
     Console.WriteLine("\t" + run.Name);
@@ -29,6 +26,20 @@ foreach (var run in workflowRuns)
     Console.WriteLine("\t" + run.DisplayTitle);
     Console.WriteLine("\t" + run.Status);
     Console.WriteLine("\t" + run.RunStartedAt);
+    Console.WriteLine("\t" + run.ArtifactsUrl);
     Console.WriteLine("\t=================");
+    var r = await client.ListWorkflowRunArtifacts(run.Id);
+    foreach (var artifact in r)
+    {
+        string filename = $"{artifact.Name}.{artifact.Id}.zip";
+        Console.WriteLine($"\t\t {filename}");
+        Stream streamToReadFrom = await client.DownloadArtifact(artifact.Id);
+        Console.WriteLine($"\t\t CanRead: {streamToReadFrom.CanRead}");
+        using Stream streamToWriteTo = File.Open(filename, FileMode.Create);
+        streamToReadFrom.CopyTo(streamToWriteTo);
+        //streamToWriteTo.Flush();
+        Console.WriteLine($"\t\t {File.Exists(filename)}");
+        Console.WriteLine($"\t\t {File.ReadAllBytes(filename).Length}");
+    }
 }
 Console.WriteLine($"Total workflows runs found: {workflowRuns.Count}");
