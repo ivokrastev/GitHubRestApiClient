@@ -36,8 +36,8 @@ foreach (var run in workflowRuns)
         Stream streamToReadFrom = await client.DownloadArtifact(artifact);
         GitHubApiClient.SaveStreamAsFile(dowloadsDirectory, streamToReadFrom, filename);
 
-        Console.WriteLine($"\t\t{filename} exists: {File.Exists($@"{dowloadsDirectory}\{filename}")}");
-        Console.WriteLine($"\t\tSize {File.ReadAllBytes($@"{dowloadsDirectory}\{filename}").Length}");
+        Console.WriteLine($"\t\t{filename} exists: {File.Exists($@"{dowloadsDirectory}/{filename}")}");
+        Console.WriteLine($"\t\tSize {File.ReadAllBytes($@"{dowloadsDirectory}/{filename}").Length}");
     }
 }
 Console.WriteLine($"Total workflows runs found: {workflowRuns.Count}");

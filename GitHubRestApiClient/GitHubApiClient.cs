@@ -29,7 +29,7 @@ namespace GitHubRestApiClient
         public GitHubApiClient()
         {
 #if DEBUG
-            AccessToken = "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";
+            AccessToken = "github_pat_...";
             GitHubIdentity = "IvoKrastev";
             RepoName = "GitHubRestApiClient";
             if (string.IsNullOrEmpty(AccessToken) || string.IsNullOrEmpty(GitHubIdentity) || string.IsNullOrEmpty(RepoName))
