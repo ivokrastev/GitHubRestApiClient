@@ -13,7 +13,7 @@ foreach (var workflow in workflows)
     Console.WriteLine("\t=================");
 }
 Console.WriteLine($"Total workflows found: {workflows.Count}");
-var w = workflows.Where(w => w.Name.StartsWith("Build, Test and Publish")).Single();
+var w = workflows.Where(w => w.Name.StartsWith("Build and Test")).Single();
 Console.WriteLine($"Searching for {w.Name} workflow runs...");
 var workflowRuns = await client.ListWorkflowRuns(w.Id);
 foreach (var run in workflowRuns)
