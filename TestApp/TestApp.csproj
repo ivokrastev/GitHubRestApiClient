@@ -8,8 +8,13 @@
     <RootNamespace>GitHubRestApiClient</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(UseProjectReferences)'=='true'">
     <ProjectReference Include="..\GitHubRestApiClient\GitHubRestApiClient.csproj" />
+    <ProjectReference Include="..\UsageHelpers\UsageHelpers.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(UseProjectReferences)'=='false'">
+    <PackageReference Include="GitHubRestApiClient" Version="$(Version)" />
+    <PackageReference Include="UsageHelpers" Version="$(Version)" />
   </ItemGroup>
 
 </Project>

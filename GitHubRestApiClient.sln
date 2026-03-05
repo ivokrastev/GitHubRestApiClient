@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.8.34511.84
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11520.95 d18.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp", "TestApp\TestApp.csproj", "{EA66DD34-532B-44C1-BD4B-CFD676E4F992}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitHubRestApiClient", "GitHubRestApiClient\GitHubRestApiClient.csproj", "{DAFE5A8B-1F45-4D3B-992E-A74754A2AB04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsageHelpers", "UsageHelpers\UsageHelpers.csproj", "{E3047B4A-1264-4045-BE6F-89A80F5F0B56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{DAFE5A8B-1F45-4D3B-992E-A74754A2AB04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAFE5A8B-1F45-4D3B-992E-A74754A2AB04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAFE5A8B-1F45-4D3B-992E-A74754A2AB04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3047B4A-1264-4045-BE6F-89A80F5F0B56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3047B4A-1264-4045-BE6F-89A80F5F0B56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3047B4A-1264-4045-BE6F-89A80F5F0B56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3047B4A-1264-4045-BE6F-89A80F5F0B56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

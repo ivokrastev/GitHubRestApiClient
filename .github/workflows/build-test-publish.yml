@@ -35,16 +35,19 @@ jobs:
       run: dotnet restore
       
     - name: Build
-      run: dotnet build -c Release
+      run: dotnet build -c Release --property GenerateLocalNugets=true
+      
+    - name: Restore dependencies with latest local NuGet packages
+      run: dotnet restore -s ./artifacts/nuget --property UseProjectReferences=false
+      
+    - name: Build using local NuGet packages
+      run: dotnet build -c Release --property UseProjectReferences=false
       
     - name: Test
       run: ./TestApp/bin/Release/net8.0/TestApp ${{ github.repository_owner }} ${{ github.event.repository.name }} ${{ secrets.GITHUB_TOKEN }}
-      
-    - name: Generate a NuGet package
-      run: dotnet pack ./GitHubRestApiClient/GitHubRestApiClient.csproj --no-build -c Release -o .
       
     - name: Setup authentication for the NuGet repository
       run: dotnet nuget add source --username ${{ github.repository_owner }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/ivokrastev/index.json"
       
     - name: Push to GitHub package registry
-      run: dotnet nuget push GitHubRestApiClient.*.nupkg --source "github" --api-key ${{ secrets.GITHUB_TOKEN }}
+      run: dotnet nuget push ./artifacts/nuget/*.nupkg --source "github" --api-key ${{ secrets.GITHUB_TOKEN }}
