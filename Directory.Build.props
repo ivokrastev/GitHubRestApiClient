@@ -11,5 +11,9 @@
     <!-- Local dev: use project references -->
     <UseProjectReferences>true</UseProjectReferences>
     <GenerateLocalNugets>false</GenerateLocalNugets>
+	
+	<BuildTimestamp>$([System.DateTime]::UtcNow.ToString(`yyyy.MMdd.HHmm`))</BuildTimestamp>
+    <VersionPrefix>1</VersionPrefix>
+    <Version>$(VersionPrefix).$(BuildTimestamp)</Version>
   </PropertyGroup>
 </Project>

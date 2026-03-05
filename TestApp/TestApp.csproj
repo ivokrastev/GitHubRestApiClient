@@ -13,8 +13,8 @@
     <ProjectReference Include="..\UsageHelpers\UsageHelpers.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(UseProjectReferences)'=='false'">
-    <PackageReference Include="GitHubRestApiClient" Version="1.*" />
-    <PackageReference Include="UsageHelpers" Version="1.*" />
+    <PackageReference Include="GitHubRestApiClient" Version="$(Version)" />
+    <PackageReference Include="UsageHelpers" Version="$(Version)" />
   </ItemGroup>
 
 </Project>
