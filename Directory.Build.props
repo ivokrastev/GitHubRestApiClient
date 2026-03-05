@@ -7,4 +7,9 @@
       <PrivateAssets>compile</PrivateAssets>
     </PackageReference>
   </ItemDefinitionGroup>
+  <PropertyGroup>
+    <!-- Local dev: use project references -->
+    <UseProjectReferences>true</UseProjectReferences>
+    <GenerateLocalNugets>false</GenerateLocalNugets>
+  </PropertyGroup>
 </Project>

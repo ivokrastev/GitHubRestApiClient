@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <VersionPrefix>1</VersionPrefix>
+    <VersionSuffix>$([System.DateTime]::UtcNow.ToString(`yyyy.MMdd.HHmm`))</VersionSuffix>
+    <Version>$(VersionPrefix).$(VersionSuffix)</Version>
+    <PackageId>$(AssemblyName)</PackageId>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(GenerateLocalNugets)'=='true'">
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageOutputPath>$(SolutionDir)artifacts\nuget</PackageOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(UseProjectReferences)'=='true'">
+    <ProjectReference Include="..\GitHubRestApiClient\GitHubRestApiClient.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(UseProjectReferences)'=='false'">
+    <PackageReference Include="GitHubRestApiClient" Version="1.*" />
+  </ItemGroup>
+
+</Project>

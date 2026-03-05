@@ -5,10 +5,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>GitHubRestApiClient</RootNamespace>
-	<VersionPrefix>1</VersionPrefix>
+	  <VersionPrefix>1</VersionPrefix>
     <VersionSuffix>$([System.DateTime]::UtcNow.ToString(`yyyy.MMdd.HHmm`))</VersionSuffix>
     <Version>$(VersionPrefix).$(VersionSuffix)</Version>
     <PackageId>$(AssemblyName)</PackageId>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(GenerateLocalNugets)'=='true'">
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageOutputPath>$(SolutionDir)artifacts\nuget</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
